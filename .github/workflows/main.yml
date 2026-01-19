@@ -1,8 +1,8 @@
-name: Deploy to GitHub Pages
+name: Deploy React Site
 
 on:
   push:
-    branches: ["main"] # هيشتغل أول ما ترفع كود على فرع main
+    branches: ["main"]
 
 permissions:
   contents: read
@@ -10,35 +10,28 @@ permissions:
   id-token: write
 
 jobs:
-  build_site:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Node.js
-        uses: actions/uses/setup-node@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4  # تم تصحيح هذا السطر هنا
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm install
 
-      - name: Build
+      - name: Build project
         run: npm run build
 
-      - name: Upload Artifacts
+      - name: Upload to GitHub Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
-  deploy:
-    needs: build_site
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - name: Deploy
         uses: actions/deploy-pages@v4
