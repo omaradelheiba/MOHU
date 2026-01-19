@@ -1,0 +1,7 @@
+{
+  "name": "MOHU Command Center",
+  "description": "High-detail GIS Administrative Dashboard for the Ministry of Hajj and Umrah featuring luxury theme and interactive spatial management.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
